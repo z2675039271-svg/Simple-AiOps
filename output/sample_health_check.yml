@@ -1,0 +1,45 @@
+---
+# 示例 Playbook - Linux 服务器巡检
+# 由 Simple-AiOps 自动生成
+# 使用方法: ansible-playbook -i inventory sample_health_check.yml
+
+- name: Linux 服务器健康状态巡检
+  hosts: all
+  become: true
+  gather_facts: true
+  tags:
+    - health
+    - check
+
+  vars:
+    alert_threshold:
+      cpu_percent: 80
+      mem_percent: 85
+      disk_percent: 90
+
+  tasks:
+    - name: 获取 CPU 使用率
+      shell: |
+        top -bn1 | grep "Cpu(s)" | awk '{print $2}' | cut -d'%' -f1
+      register: cpu_usage
+      changed_when: false
+
+    - name: 获取内存使用率
+      shell: |
+        free | grep Mem | awk '{printf "%.0f", $3/$2 * 100}'
+      register: mem_usage
+      changed_when: false
+
+    - name: 获取磁盘使用率
+      shell: |
+        df -h / | tail -1 | awk '{print $5}' | sed 's/%//'
+      register: disk_usage
+      changed_when: false
+
+    - name: 打印巡检结果
+      debug:
+        msg: |
+          ====== {{ inventory_hostname }} 巡检报告 ======
+          CPU 使用率: {{ cpu_usage.stdout }}%
+          内存使用率: {{ mem_usage.stdout }}%
+          磁盘使用率: {{ disk_usage.stdout }}%
