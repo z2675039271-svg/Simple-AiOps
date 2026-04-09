@@ -1,0 +1,45 @@
+# Simple-AiOps 配置文件
+# 请复制此文件为 config.yaml 并填入你的配置
+
+api:
+  # API 提供商: deepseek / openai / custom
+  provider: "deepseek"
+  
+  # API Key（建议使用环境变量方式，更加安全）
+  # Linux/Mac: export DEEPSEEK_API_KEY="your-key"
+  # Windows: set DEEPSEEK_API_KEY=your-key
+  api_key: ""  # 填入你的 API Key
+  
+  # API 地址
+  # DeepSeek: https://api.deepseek.com
+  # OpenAI: https://api.openai.com
+  base_url: "https://api.deepseek.com"
+  
+  # 模型名称
+  # DeepSeek: deepseek-chat
+  # OpenAI: gpt-4 / gpt-3.5-turbo
+  model: "deepseek-chat"
+
+# 目标环境配置
+target:
+  # 操作系统类型: linux / kirin / uos
+  os_type: "linux"
+  
+  # Ansible 版本
+  ansible_version: "2.9"
+
+# 输出配置
+output:
+  # 生成的 Playbook 保存目录
+  directory: "output"
+  
+  # 是否自动添加时间戳
+  add_timestamp: true
+
+# 日志配置
+logging:
+  # 日志级别: DEBUG / INFO / WARNING / ERROR
+  level: "INFO"
+  
+  # 日志保存目录
+  directory: "logs"
